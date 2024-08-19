@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Project</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="nav-barstyle.css">
+    <script>
+        $(document).ready(function(){
+
+          $(window).on('scroll', function () {
+        $('.fade-up').each(function () {
+          var elementTop = $(this).offset().top;
+          var scrollTop = $(window).scrollTop();
+          var windowHeight = $(window).height();
+
+          if (scrollTop + windowHeight > elementTop + 100) { // Adjust threshold as needed
+            $(this).addClass('visible');
+          } else {
+            $(this).removeClass('visible');
+          }
+        });
+      }).trigger('scroll');
+            $("#btnsignup").click(function(){
+                let obj={
+                    type:"get",
+                    url:"/signup-process",
+                    data:{
+                        txtemail:$("#txtemail").val(),
+                        txtpwd:$("#txtpwd").val(),
+                        txttype:$("#txttype").val(),
+                   }
+                }
+                $.ajax(obj).done(function(resp){
+                  alert(resp);
+                    // $("#errmessage").html(resp);
+                }).fail(function(err){
+                    alert(err.statusText);
+                })
+            })
+            
+            $("#btnlogin").click(function(){
+                let obj={
+                    type:"get",
+                    url:"/login-process",
+                    data:{
+                        txtemail:$("#txtemaillog").val(),
+                        txtpwd:$("#txtpwdlog").val(),
+                   }
+                }
+                $.ajax(obj).done(function(resp){
+                    console.log(resp);
+                    if(resp.length>0)
+                    {
+                        if(resp[0].ustatus==1)
+                        {
+                          // alert("Logined as"+ resp[0].utype);
+                          // $("#errmessagelog").html("Logined as"+ resp[0].utype);
+                          if(resp[0].utype==="influencer")
+                          {
+                            location.href="index2.html";
+                            localStorage.setItem("activeuser",$("#txtemaillog").val());
+                          }
+                          else if(resp[0].utype==="Collaborator")
+                          {
+                            location.href="index3.html";
+                            localStorage.setItem("activeuser",$("#txtemaillog").val());
+                          }
+                        }
+                        else
+                        {
+                            $("#errmessagelog").html("You are blocked");
+                        }
+                    }
+                    else
+                    {
+                        // $("#errmessagelog").html("Invalid email id or password");
+                        $("#txtemaillog").addClass("is-invalid");
+                    }
+                    
+                    
+                }).fail(function(err){
+                    alert(err.statusText);
+                })
+
+            })
+
+            // THIS WILL HELP TO CHECK THE PATTERN AND THE DIV OF THIS IS BELOW THE SPAN AFTER EMAIL BOX OF SIGNUP
+            // $("#txtemail").blur(function(){
+            //   var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+            //   let email=$(this).val();
+            //   if(pattern.test(email)==true)
+            //   {
+            //     $("#txtemail").removeClass("is-invalid");
+            //   }
+            // else
+            // {
+            //   $("#txtemail").addClass("is-invalid");
+            // }
+            // })
+            // this below code is for validation in email
+            $("#txtemail").keyup(function(){
+                $("#txtemail").keyup(function(){
+                    if($(this).val=="")
+                    {
+                        $("#err").html("");
+                        return;
+                    }
+                })
+                let obj={
+                    type:"get",
+                    url:"/check-user-existance",
+                    data:{
+                        txtEmail:$("#txtemail").val()
+                    }
+                }
+                $.ajax(obj).done(function(resp){
+                  if(resp.length==0)
+                  {
+                    $("#txtemail").removeClass("is-invalid");
+                  }
+                  else
+                  {
+                    $("#txtemail").addClass("is-invalid");
+                  }
+                }).fail(function(err){     
+                    alert(err.statusText);
+                })
+              })
+
+              $("#btncloselog").click(function(){
+                $("#txtemaillog").val("");
+                $("#txtpwdlog").val("");
+                $("#txtemaillog").removeClass("is-invalid");
+
+              })
+              $("#btnclose").click(function(){
+                $("#txtemail").val("");
+                $("#txtpwd").val("");
+                $("#txtemail").removeClass("is-invalid");
+
+              })
+
+              $("#eye").mouseenter(function(){
+                $("#txtpwd").prop("type","text"); 
+                $("#eye").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+      $("#eye").mouseleave(function(){
+                $("#txtpwd").prop("type","password"); 
+                $("#eye").addClass("fa-eye").removeClass("fa-eye-slash");
+            });
+
+            $("#eyelog").mouseenter(function(){
+                $("#txtpwdlog").prop("type","text"); 
+                $("#eye").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+      $("#eyelog").mouseleave(function(){
+                $("#txtpwdlog").prop("type","password"); 
+                $("#eye").addClass("fa-eye").removeClass("fa-eye-slash");
+            });
+
+        });
+    </script>
+    <!-- <script>
+      $("#eye").mouseenter(function(){
+                $("#txtpwd").prop("type","text"); 
+                $("#eye").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+      $("#eye").mouseleave(function(){
+                $("#txtpwd").prop("type","password"); 
+                $("#eye").addClass("fa-eye").removeClass("fa-eye-slash");
+            });
+    </script> -->
+
+</head>
+<body id="top" style="overflow-x: hidden;">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" id="navbar">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><b>C2C</b> | Connect to Collaborate</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item mx-3">
+            <a class="nav-link" aria-current="page" href="#">Home</a>
+          </li>
+          <!-- <li class="nav-item mx-3">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">SignUp</a>
+          </li> -->
+          <li class="nav-item mx-3 ">
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal2">Sign in</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="#services">Our Services</a>
+          </li>
+          <li class="nav-item mx-3">
+            <a class="nav-link" href="#about">About Us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    <center>
+  <!-- Modal for signup -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">SignUp</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btnclose" name="btnclose"></button>
+        </div>
+        <div class="modal-body">
+            <form >
+                <div class="form-floating  mb-3">
+                  <input type="text"  class="form-control"  name="txtemail" id="txtemail" placeholder="email@gmail.com">
+                  <label for="txtemail" class="form-label">Email address</label>
+                  <span class="invalid-feedback" id="err">This ID is not available , please try another one</span>
+                  <!-- <div class="invalid-feedback">Not a Valid Pattern</div> -->
+                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="form-floating mb-3 password-container" style="position: relative;">
+                  <input type="password" class="form-control" name="txtpwd" id="txtpwd" placeholder="password" style="padding-right: 2.5rem;">
+                  <label for="txtpwd" class="form-label">Password</label>
+                  <i class="fa-regular fa-eye" id="eye" style="cursor: pointer; position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); color: #aaa; font-size: 20px;"></i>
+                </div>
+                <select class="form-select" aria-label="Default select example" name="type" id="txttype">
+                    <option selected>Your Description</option>
+                    <option value="influencer">Influencer</option>
+                    <option value="Collaborator">Brand</option>
+                  </select>
+                  <br>
+                  <!-- <span id="errmessage">*</span> -->
+              </form>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary" formaction="/signup-process" name="btnsignup" id="btnsignup" data-bs-dismiss="modal">Signup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--*********************************************************************************** MODAL FOR LOGIN-->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" >
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btncloselog" name="btncloselog"></button>
+        </div>
+        <div class="modal-body">
+            <form >
+                <div class="form-floating mb-3">
+                <input type="text"  class="form-control"  name="txtemaillog" id="txtemaillog" placeholder="name@example.com">
+                <!-- <span id="errmessagelog">*</span> -->
+                <label for="txtemaillog" class="form-label">Email address</label>
+                <span class="invalid-feedback" id="errlog">Invalid Email ID or password</span>                
+              </div>
+                <!-- <div class="invalid-feedback"><span id="errmessagelog">*</span></div> -->
+                
+                <div class="form-floating">
+                    <input type="password" class="form-control" name="txtpwdlog" id="txtpwdlog" placeholder="password">
+                  <label for="txtpwdlog" class="form-label">Password</label>
+                  <i class="fa-regular fa-eye" id="eyelog" style="cursor: pointer; position: absolute; top: 50%; right: 0.5rem; transform: translateY(-50%); color: #aaa; font-size: 20px;"></i>
+                </div>
+                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal1">Forgot Password?</button><br><br>
+                <div>Don't Have an account yet?<br><button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Sign Up</button>
+                </div><br>
+              </form>
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button type="button" class="btn btn-primary" formaction="/login-process" name="btnlogin" id="btnlogin">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--***************************************************-->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Send OTP</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email@gmail.com">
+            <label for="exampleInputEmail1" class="form-label">Email address</label><br>
+            <button type="button" class="btn btn-primary">Send OTP</button>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="123456">
+            <label for="exampleInputPassword1" class="form-label">Enter OTP</label><br>
+            <button type="button" class="btn btn-primary">Verify OTP</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  <!--*****************************************************************************-->
+
+  <!--***********************************************************************************8 MODAL FOR DASHBOARD-->
+  <!-- <a href="/dashboard"><button type="button" class="btn btn-outline-info">Influencer Dashboard</button></a> -->
+
+
+
+
+
+
+
+  <!--*********************************************************************************88-->
+  <br><br><br>
+  <div class="container">
+  <div class="row" style="display: flex; justify-content: space-between;">
+    <div class="col-md-6" style="margin-top: 27px;" >
+      <div class="card-body">
+          <h5 style="text-align: left; font-size: 50px; font-weight: 1000; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Empower Your Brand <br> with the Perfect <br> Influencer Partnership</h5>
+          <p style="text-align: left; font-size: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Build Meaningful Influencer Relationships to Propel Your Brand Forward and Engage Your Target Audience Effectively.</p>
+          <br>
+          <div style="display: flex;">
+          <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">&nbsp;For Brands&nbsp;</button>&nbsp;&nbsp;&nbsp;
+          <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">&nbsp;For Creators&nbsp;</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" style="margin-top: 80px;">
+      <div class="card land">
+        <img src="pics/landing1.webp" style="width: 500px; height: 350px;  border-radius: 20px; rotate: -110deg;">
+      </div>
+    </div>
+  </div>
+</div>
+  <br><br>
+    <!--*********************************************************************************88-->
+    <div>
+      <div style="color:  #DC143C; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">
+        <center><b>OUR CLIENTS</b></center>
+      </div>
+      <br>
+      <div class="carousel-wrapper">
+        <div class="carousel">
+            <div class="item"> <img src="https://cdn.freebiesupply.com/logos/large/2x/general-electric-black-logo-png-transparent.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/thumbs/2x/mcdonalds-black-logo.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/thumbs/2x/mcdonalds-black-logo.png" alt=""></div>
+            <div class="item"> <img src="https://cdn.freebiesupply.com/logos/large/2x/general-electric-black-logo-png-transparent.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/thumbs/2x/mcdonalds-black-logo.png" alt=""></div>
+            <div class="item"> <img src="https://cdn.freebiesupply.com/logos/large/2x/general-electric-black-logo-png-transparent.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/thumbs/2x/mcdonalds-black-logo.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/large/2x/hogwarts-logo-png-transparent.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/large/2x/mercedes-benz-6-logo-png-transparent.png" alt=""></div>
+            <div class="item"><img src="https://logo.clearbit.com/coca-cola.com" alt="Coca-Cola"></div>
+            <div class="item"><img src="https://logo.clearbit.com/apple.com" alt="apple"></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/logos/large/2x/nfl-logo-png-transparent.png" alt=""></div>
+            <div class="item"> <img src="https://cdn.freebiesupply.com/logos/large/2x/general-electric-black-logo-png-transparent.png" alt=""></div>
+            <div class="item"><img src="https://cdn.freebiesupply.com/images/large/2x/starbucks-logo-black-and-white.png" alt=""></div>
+            <div class="item"> <img src="https://cdn.freebiesupply.com/logos/thumbs/2x/mcdonalds-black-logo.png" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <br><br><br><br><br>
+    <div><h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" id="services">OUR SERVICES</h1></div>
+    <br><br>
+    
+
+    <div class="container">
+    <div class="row">
+      <div class="col-md-6" style="margin-top: 27px;" >
+        <div class="card servicecard" style="border: none; border-radius: 20px;">
+          <img src="pics/collaboration.webp" class="serviceimg">
+          <div style="position: absolute; top: 380px; left: 20px;">
+            <h3 style="color: whitesmoke;">Collaborations</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" style="margin-top: 27px;">
+        <div class="card servicecard" style="border: none; border-radius: 20px;" >
+          <img src="pics/promotion.webp" class="serviceimg">
+          <div style="position: absolute; top: 380px; left: 20px;">
+            <h3 style="color: whitesmoke;">Promotions and Growth</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6" style="margin-top: 27px;">
+        <div class="card servicecard" style="border: none; border-radius: 20px;">
+          <img src="pics/aboutus.webp"  class="serviceimg">
+          <div style="position: absolute; top: 380px; left: 20px;">
+            <h3 style="color: whitesmoke;">Meet & Greet</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" style="margin-top: 27px;">
+        <div class="card servicecard" style="border: none; border-radius: 20px;" >
+          <img src="pics/infl-find.webp"  class="serviceimg">
+          <div style="position: absolute; top: 380px; left: 20px;">
+            <h3 style="color: whitesmoke;">Seek Influencers</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br><br><br><br><br><br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card" style="width: 500px; height: 300px;margin-top: 10px; border: none;">
+          <div class="card-body" >
+            <h2 class="card-title" style="color: #DC143C; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">LET IT HAPPEN</h2>
+            <hr style="width: 300px;">
+            <br>
+            <p class="card-text" style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size: 20px;">Increase your sales and get the profits you've ever made. Connect With top influencers of India to Grow.As trusted partners and guardians of your brand we build and execute campaigns across every timeline, scope and requirement.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card" style="width: 18rem; margin-top: 10px; margin-right: 100px">
+          <img src="pics/fash4.jpg" class="rounded float-end" style="height: 300px; width: 400px;">
+        </div>
+      </div>
+    </div>
+  </div>
+    <!---***********************************************************************************8-->
+    <br><br><br><br><br><br><br>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <div class="card" style="width: 900px; height:400px ;  background-color: #DC143C" id="about">
+        <div class="card-body">
+          <center><h5 class="card-title" style="color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 40px;">About Us</h5></center>
+          <center><hr style="width: 200px; color: whitesmoke;"></center>
+          <p class="card-text fade-up" style="color: white; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size: 20px;">
+            We specialize in helping brands connect with top influencers tailored to their specific needs and located in their target cities. Our platform facilitates seamless collaboration between brands and influencers, ensuring impactful campaigns that resonate with local audiences.
+            <br><br>
+            Whether you're aiming to boost brand awareness, drive engagement, or increase sales, our dedicated team ensures that your campaigns leverage the power of influencer marketing effectively.
+          </p>          </div>
+      </div>
+    </div>
+    <!--***************************************88-->
+    <br><br><br><br><br><br><br>
+    <!-- <center>
+      <div><h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" id="team">OUR TEAM</h1></div>
+    <div style="display: flex; justify-content: space-evenly; height: 400px;">
+  <div class="cardteam" style="width: 18rem;">
+    <br><br>
+    <div class="image-box">
+      <br>
+      <img src="pics/SIR.png" class="card-img-top" style=" border-radius: 30px;">
+    </div>
+    <div class="contentteam">
+      <h2>Rajesh Bansal</h2>
+      <p>20 Years experience in Training & Development. Founder of realJavaOnline.com, loves coding in Java(J2SE, J2EE), C++,PHP, Python, AngularJS, Android,MERN Stack(MongoDB,Express,ReactJS,NodeJS)</p>
+    </div>
+  </div>
+
+
+  <div class="cardteam" style="width: 18rem;">
+    <br><br>
+    <div class="image-box">
+      <br>
+      <img src="pics/photo.jpg" class="card-img-top" style="height: 250px;">
+    </div>
+    <div class="contentteam">
+      <h2>Aditya Jindal</h2>
+      <p></p>
+    </div>
+  </div>
+</div>
+</center> -->
+</center>
+<a href="#top">
+  <center><div style="width: 100%; height: 50px; background-color: #121b25; padding-top: 15px;"><p>Back to top</p></div></a></center>
+<section class="footer">
+  <div class="footer-content">
+    <img src="pics/logo.jpg" style="height: 100px; width: 100px; border-radius: 20px;">
+    <p style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Do whatever you want and <br>compete with this world.</p>
+    <div class="icons">
+      <a href=""><i class="fa-brands fa-youtube"></i></a>
+      <a href=""><i class="fa-brands fa-instagram"></i></a>
+      <a href=""><i class="fa-brands fa-facebook"></i></a>
+      <a href=""><i class="fa-brands fa-tiktok"></i></a>
+    </div>
+  </div>
+  <div class="footer-content">
+    <h4>Get to Know Us</h4>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Careers</a></li>
+    <li><a href="#">Top Influencers</a></li>
+    <li><a href="#">Explore More</a></li>
+  </div>
+
+  <div class="footer-content">
+    <h4>Company</h4>
+    <li><a href="#">How we work</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">Resources</a></li>
+    <li><a href="#">Location</a></li>
+  </div>
+
+  <div class="footer-content">
+    <h4>Social</h4>
+    <li><a href="#">Youtube</a></li>
+    <li><a href="#" >Instagram</a></li>
+    <li><a href="#">Facebook</a></li>
+    <li><a href="#">Tiktok</a></li>
+  </div>
+
+  <div class="footer-content">
+    <h4>Legal</h4>
+    <li><a href="#">Platform</a></li>
+    <li><a href="#" >Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Conditions</a></li>
+  </div>
+</section>
+<!--***********************************************************************************8-->
+
+<!-- <a href="/admindash"><button type="button" class="btn btn-outline-primary">Admin-Dashboard</button></a> -->
+
+<!-------------------------------------------------------------------------------------------------------->
+<!-- <a href="/infl-finder"><button type="button" class="btn btn-outline-info">Influencer Finder</button></a> -->
+
+
+
+
+</body>
+</html>
+

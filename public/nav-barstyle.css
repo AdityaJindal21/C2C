@@ -1,0 +1,399 @@
+nav 
+    {
+        /* height: 3rem;  This will make the home, login buttons out of the bar use it and see teh difference */
+        background-color: #222;
+        width: 100%;
+        border-radius: 5px;
+        position: relative;
+        z-index: 1000;
+        cursor: pointer;
+
+    }
+    #navbar{
+        background-color: #333;
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    ul 
+    {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 10px;
+        gap: 10px;
+
+    }
+
+    a 
+    {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 12px;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .nav-item 
+    {
+        position: relative;
+        list-style: none;
+        padding: 4px 0;
+    }
+
+    .nav-item::after,
+    .nav-item::before 
+    {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        background-color: red;
+        transition: all 0.6s ease-in-out;
+    }
+
+    .nav-item::after 
+    {
+        top: 0;
+        right: 0;
+        transform-origin: right;
+
+    }
+
+    .nav-item::before 
+    {
+        left: 0;
+        bottom: 0;
+        transform-origin: left;
+    }
+
+    .nav-item:hover::after,
+    .nav-item:hover::before 
+    {
+    width: 100%;
+    }
+
+    .scaleon{
+     
+        transition: transform 1s ease;
+        box-shadow : 0.3s ease; 
+       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+    
+        .scaleon:hover{
+          transform: scale(1.05); 
+        box-shadow: 0 16px 16px rgba(0, 0, 0, 0.2);
+        }
+    .cardteam {
+      width: 400px;
+      aspect-ratio: 1 / 0.7;
+      border-radius: 8px;
+      position: relative;
+      cursor: pointer;
+    }
+    .cardteam .image-box {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+    }
+    .cardteam.image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 90%;
+      border-radius: inherit;
+      transition: 0.5s ease-in-out;
+    }
+    
+    .cardteam::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      /* border: 2px solid white; */
+      height: 200px;
+      border-radius: inherit;
+      opacity: 0;
+      transition: 0.4s ease-in-out;
+    }
+    
+    .cardteam:hover img {
+      filter: grayscale(1) brightness(0.4);
+    }
+    .cardteam:hover::after {
+      opacity: 1;
+      inset: 20px;
+    }
+    
+    .contentteam {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    
+    .contentteam h2,
+    .contentteam p {
+      opacity: 0;
+      transition: 0.4s 0.2s ease;
+    }
+    .contentteam h2 {
+      margin-bottom: 12px;
+      scale: 0.7;
+    }
+    .contentteam p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #d1d1d1;
+      transform: translateY(50%);
+    }
+    .cardteam:hover .contentteam h2 {
+      scale: 1;
+      opacity: 1;
+    }
+    .cardteam:hover .contentteam P {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    @media (max-width: 768px) {
+      .cardteam {
+        max-width: 100%; /* Take full width on smaller screens */
+        margin: 10px; /* Adjust margin for smaller screens */
+      }
+    }
+    
+    html {
+        scroll-behavior: smooth;
+      }
+
+      .fade-up {
+        opacity: 0; /* Initially hidden */
+        transform: translateY(50px); /* Initially positioned down */
+        transition: opacity 0.6s ease, transform 0.6s ease; /* Transition for fade-up effect */
+    }
+    
+    .fade-up.visible {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Move to original position */
+    }
+
+
+
+
+    /* companies marquee styling*/
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg-clr: white;
+        
+      }
+
+      .carousel-wrapper {
+        --width: 100px;
+        --gap: 0;
+        --num-items: 8;
+        --ani-offset: 
+        calc(var(--width) * 
+        var(--num-items) * -1);
+        --ani-speed: 10s;
+        width: 1200px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .carousel-wrapper::before,
+      .carousel-wrapper::after {
+        content: '';
+        position: absolute;
+        width: 20%;
+        height: 100%;
+        z-index: 1;
+        top: 0;
+      }
+      .carousel-wrapper::before {
+        left: 0;
+        background-image: 
+        linear-gradient(to right, var(--bg-clr) 0%, transparent 50%);
+      }
+
+      .carousel-wrapper::after {
+        right: 0;
+        background-image: 
+        linear-gradient(to left,var(--bg-clr) 0%, transparent 50%);
+      }
+
+    .carousel {
+        display: flex;
+        align-items: center;
+        animation: slide var(--ani-speed) linear infinite;
+    }
+
+    .item {
+        flex: 1 0 var(--width);
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .item>img {
+        width: 100px;
+        height: auto;
+        object-fit: cover;
+    }
+
+    @keyframes slide {
+        100% {
+            transform: translateX(var(--ani-offset));
+        }
+    }
+      
+
+    /* now the services image styling */
+
+    .serviceimg{
+      height:434px;
+    }
+
+    .servicecard{
+      overflow: hidden;
+    }
+    .servicecard>img{
+      /* width: 100%;
+      height: 100%; *//* THIS CHANGES THE ALLIGNMENT OF THE IMAGES*/
+      transition: scale 750ms ease-out, filter 250ms ease-in-out;
+    }
+    .servicecard:hover>img{
+      scale: 1.15;
+    }
+
+
+
+    /* NOW THE FOOTER DESIGN*/
+
+    *{
+      list-style: none;
+    }
+
+    /* body{
+      height: 100vh;
+      width: 100%;
+    } */
+    .section{
+      padding: 80px 13% 70px;
+    }
+    .footer{
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(200px,auto));
+      grid: 3.5rem;
+      background-color: #1a242f;
+      position: absolute;
+      left: 0;
+      right: 0;
+    }
+    .footer-content h4{
+      color: #fff;
+      margin-bottom: 1.5rem;
+      font-size: 20px;
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-weight: 1000;
+    }
+    .footer-content li{
+      margin-bottom: 16px;
+    }
+
+    .footer-content li a{
+      display: block;
+      color: #d6d6d6;
+      font-size: 15px;
+      font-weight: 400;
+      transition: all 0.40s ease;
+    }
+
+    .footer-content li a:hover{
+      transform: translateX(-5px) translateY(-3px);
+      color: #fff;
+    }
+
+    .footer-content p{
+      color: #d6d6d6;
+      font-size: 16px;
+      line-height: 30px;
+      margin: 20px 0;
+    }
+
+    .icons a{
+      display: inline-block;
+      font-size: 22px;
+      color: #d6d6d6;
+      margin-right: 17px;
+      transition: all 0.40s ease;
+    }
+
+    .icons a:hover{
+      color: #fff;
+      transform: translateY(-5px);
+    }
+
+    @media (max-width:1690px)
+    {
+      section{
+        padding: 50px 5% 40px;
+      }
+    }
+
+    @media (max-width: 1120px)
+    {
+      .footer{
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(300px,auto));
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 700px)
+    {
+      .footer{
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(150px,auto));
+        gap: 2.5rem;
+      }
+    }
+
+
+    /* landing page design */
+    .land{
+      border-radius: 20px; 
+      width: 430px;
+       height: 430px; 
+       background-color: #DC143C; 
+       display: flex;
+        justify-content: center; 
+        align-items: center; 
+        transform: rotate(110deg);
+    }
+    .btn-outline-primary{
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: whitesmoke;
+      border-color: #6b14dc;
+      background-color: #6b14dc;
+    }
+    .btn-outline-primary:hover{
+      background-color: white;
+      color: #6b14dc;
+      border-color: #6b14dc;
+    }
+    .btn-outline-danger{
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      color: #DC143C;
+      border-color: #DC143C;
+    }
+    .btn-outline-danger:hover{
+      background-color: #DC143C;
+      border-color: #DC143C;
+    }

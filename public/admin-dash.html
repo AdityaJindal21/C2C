@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
+    <script>
+      $(document).ready(function() {
+          $("#blackbody").css("display", "block");
+          $("#staticBackdrop").modal("show");
+  
+          $("#btnAuth").click(function() {
+              if ($("#pwd").val() == "11-03-04") {
+                  $("#txt").html("Authentication successful");
+                  $("#staticBackdrop").modal("hide");
+                  $("#blackbody").css("display", "none");
+              } else if ($("#pwd").val() != "11-03-04") {
+                  $("#txt").html("Enter valid key.");
+              }
+          });
+      });
+  </script>
+</head>
+<body class="p-3 mb-2 bg-body-tertiary">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <img src="pics/user_manager.jpg" class="card-img-top">
+                <div class="card-body">
+                  <center><a href="/admin-users" class="btn btn-primary">Users Manager</a></center>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <img src="pics/settings_pic.avif" class="card-img-top">
+                <div class="card-body">
+                  <center><a href="/all-infl" class="btn btn-primary">Influencer Console</a></center>
+                </div>
+              </div>
+        </div>
+    </div>
+    
+
+
+    <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background-color: black;">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color: white; font-family: Georgia, 'Times New Roman', Times, serif;">Authenticaton</h1>
+            <!-- <button type="button" class="btn-close" id="cross" disabled data-bs-dismiss="modal" style="background-color: white;" aria-label="Close"></button> -->
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="pwd" style="color: white;" class="form-label">Key</label>
+                <input type="password" class="form-control" style="background-color: black; color: white;" id="pwd">
+              </div>
+              <center>
+              <button type="button" id="btnAuth"  class="btn btn-outline-light">Submit</button><br>
+              <span id="txt" style="color: white;"></span>
+              </center>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+</body>
+</html>
